@@ -65,6 +65,9 @@ importers:
       tailwind-merge:
         specifier: ^1.14.0
         version: 1.14.0
+      tailwindcss:
+        specifier: ^3.3.3
+        version: 3.3.3
       use-debounce:
         specifier: ^9.0.4
         version: 9.0.4(react@18.3.1)
@@ -114,9 +117,6 @@ importers:
       prettier-plugin-tailwindcss:
         specifier: ^0.2.8
         version: 0.2.8(prettier@2.8.8)
-      tailwindcss:
-        specifier: ^3.3.3
-        version: 3.3.3
       typescript:
         specifier: 5.2.2
         version: 5.2.2
