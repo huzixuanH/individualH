@@ -5,10 +5,17 @@ import { useDemoModal } from "@/components/home/demo-modal";
 import Popover from "@/components/shared/popover";
 import Tooltip from "@/components/shared/tooltip";
 import { ChevronDown } from "lucide-react";
+import useSWR from "swr";
+
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function ComponentGrid() {
   const { DemoModal, setShowDemoModal } = useDemoModal();
   const [openPopover, setOpenPopover] = useState(false);
+
+  const { data } = useSWR('api/user', fetcher);
+  console.log("🚀 ~ ComponentGrid ~ data:", data)
+
   return (
     <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
       <DemoModal />
