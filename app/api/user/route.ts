@@ -1,4 +1,7 @@
 import { PrismaClient } from "@prisma/client";
+import { selectUserById } from "db/model/users";
+import { NextRequest } from "next/server";
+import { returnMissingParamsResp } from "../constants";
 
 const prisma = new PrismaClient();
 
@@ -9,7 +12,7 @@ const prisma = new PrismaClient();
  *     User:
  *       type: object
  *       properties:
- *         name: 
+ *         name:
  *           type: string
  *         password:
  *           type: string
@@ -35,15 +38,19 @@ const prisma = new PrismaClient();
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/User'   
+ *               $ref: '#/components/schemas/User'
  *       '500':
  *         description: server error
- * 
  */
-export async function GET(request: Request) {
-  const user = await prisma.user.findFirst();
+export async function GET(req: NextRequest) {
+  const { searchParams } = req.nextUrl;
+  const id = searchParams.get("id");
+  if (!id) {
+    return returnMissingParamsResp();
+  }
+  const prismaUser = await prisma.user.findUnique({ where: { id } });
 
-  return new Response(JSON.stringify(user), {
-    status: 200,
-  });
+  const drizzleUser = await selectUserById(id);
+
+  return Response.json([drizzleUser, prismaUser]);
 }
