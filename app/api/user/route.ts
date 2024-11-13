@@ -1,22 +1,6 @@
-import { PrismaClient } from "@prisma/client";
 import { selectUserById } from "db/model/users";
 import { NextRequest } from "next/server";
 import { returnMissingParamsResp } from "../constants";
-
-const prisma = new PrismaClient();
-
-/**
- * @swagger
- * components:
- *   schemas:
- *     User:
- *       type: object
- *       properties:
- *         name:
- *           type: string
- *         password:
- *           type: string
- */
 
 /**
  * @swagger
@@ -48,9 +32,8 @@ export async function GET(req: NextRequest) {
   if (!id) {
     return returnMissingParamsResp();
   }
-  const prismaUser = await prisma.user.findUnique({ where: { id } });
 
   const drizzleUser = await selectUserById(id);
 
-  return Response.json([drizzleUser, prismaUser]);
+  return Response.json(drizzleUser);
 }
